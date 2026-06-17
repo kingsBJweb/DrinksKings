@@ -2,234 +2,57 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Drinks Kings 👑</title>
-  
-  <link rel="stylesheet" href="style.css" />
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <!-- ══════════════════════════════════════════
-       AGE GATE
-  ══════════════════════════════════════════ -->
-  <div id="age-gate" class="age-gate">
-    <div class="age-gate__card">
-      <div class="age-gate__crown">👑</div>
-      <h1 class="age-gate__title">Drinks Kings</h1>
-      <p class="age-gate__subtitle">Este site contém conteúdo sobre bebidas alcoólicas</p>
-      <p class="age-gate__question">Você tem mais de 18 anos?</p>
-      <form class="age-gate__form" id="age-form">
-        <div class="age-gate__inputs">
-          <div class="age-gate__field">
-            <label>Dia</label>
-            <input type="number" id="age-day" placeholder="DD" min="1" max="31" maxlength="2" />
-          </div>
-          <div class="age-gate__field">
-            <label>Mês</label>
-            <input type="number" id="age-month" placeholder="MM" min="1" max="12" maxlength="2" />
-          </div>
-          <div class="age-gate__field">
-            <label>Ano</label>
-            <input type="number" id="age-year" placeholder="AAAA" min="1900" max="2099" maxlength="4" />
-          </div>
-        </div>
-        <button type="submit" class="btn btn--gold">Entrar</button>
-        <p id="age-error" class="age-gate__error hidden"></p>
-      </form>
-      <p class="age-gate__warning">
-        🚗 Se beber, não dirija.<br />
-        Não compartilhe este conteúdo com menores de 18 anos.
-      </p>
+<div class="background"></div>
+
+<!-- LOGIN / IDADE -->
+<div class="gate" id="gate">
+  <div class="card">
+    <h1>Drinks Kings 👑</h1>
+    <p>Você tem mais de 18 anos?</p>
+
+    <div class="inputs">
+      <input id="dia" placeholder="DD" maxlength="2">
+      <input id="mes" placeholder="MM" maxlength="2">
+      <input id="ano" placeholder="AAAA" maxlength="4">
     </div>
+
+    <button onclick="entrar()">Entrar</button>
+
+    <small>Se beber, não dirija.</small>
+  </div>
+</div>
+
+<!-- CONTEÚDO -->
+<div class="container hidden" id="container">
+
+  <header class="section">
+    <h1>Drinks Kings 👑</h1>
+    <p>Catálogo premium de drinks</p>
+  </header>
+
+  <!-- FILTROS -->
+  <div class="filters section">
+    <button onclick="filter('all')">Todos</button>
+    <button onclick="filter('vodka')">Vodka</button>
+    <button onclick="filter('gin')">Gin</button>
+    <button onclick="filter('whisky')">Whisky</button>
   </div>
 
-  <!-- ══════════════════════════════════════════
-       MAIN SITE (hidden until age verified)
-  ══════════════════════════════════════════ -->
-  <div id="main-site" class="hidden">
+  <!-- GRID -->
+  <div class="grid section" id="grid"></div>
 
-    <!-- HEADER -->
-    <header class="header">
-      <div class="header__logo">
-        <span class="header__crown">👑</span>
-        <span class="header__name">Drinks Kings</span>
-      </div>
-      <nav class="header__nav">
-        <a href="#trending">Trending</a>
-        <a href="#specials">Datas Especiais</a>
-        <a href="#favorites">Favoritos</a>
-      </nav>
-      <div class="header__auth">
-        <div id="auth-logged-out" class="auth-buttons">
-          <button class="btn btn--outline" onclick="openAuthModal('login')">Entrar</button>
-          <button class="btn btn--gold" onclick="openAuthModal('register')">Cadastrar</button>
-        </div>
-        <div id="auth-logged-in" class="auth-user hidden">
-          <span id="user-name-display">Olá, Usuário</span>
-          <button class="btn btn--outline btn--sm" onclick="logoutUser()">Sair</button>
-        </div>
-      </div>
-      <button class="header__menu-btn" id="menu-btn" aria-label="Menu">☰</button>
-    </header>
+</div>
 
-    <!-- MOBILE NAV -->
-    <div class="mobile-nav hidden" id="mobile-nav">
-      <a href="#trending" onclick="closeMobileNav()">Trending</a>
-      <a href="#specials" onclick="closeMobileNav()">Datas Especiais</a>
-      <a href="#favorites" onclick="closeMobileNav()">Favoritos</a>
-      <button class="btn btn--outline btn--sm" onclick="openAuthModal('login'); closeMobileNav()">Entrar</button>
-      <button class="btn btn--gold btn--sm" onclick="openAuthModal('register'); closeMobileNav()">Cadastrar</button>
-    </div>
-
-    <!-- HERO -->
-    <section class="hero">
-      <div class="hero__content">
-        <p class="hero__eyebrow">Bem-vindo ao reino</p>
-        <h1 class="hero__title">Drinks<br /><em>Extraordinários</em></h1>
-        <p class="hero__subtitle">Receitas premiadas, ingredientes selecionados e o segredo dos melhores bartenders do mundo.</p>
-        <a href="#trending" class="btn btn--gold btn--lg">Explorar Drinks</a>
-      </div>
-      <div class="hero__visual">
-        <div class="hero__glass">🍸</div>
-      </div>
-    </section>
-
-    <!-- TRENDING DRINKS -->
-    <section class="section" id="trending">
-      <div class="container">
-        <div class="section__header">
-          <span class="section__eyebrow">Em alta agora</span>
-          <h2 class="section__title">Drinks Tradicionais</h2>
-        </div>
-        <div class="cards-grid" id="drinks-grid">
-          <!-- Cards injected by JS -->
-        </div>
-      </div>
-    </section>
-
-    <!-- SPECIAL DATES -->
-    <section class="section section--dark" id="specials">
-      <div class="container">
-        <div class="section__header">
-          <span class="section__eyebrow">Comemore com estilo</span>
-          <h2 class="section__title">Datas Especiais</h2>
-        </div>
-        <div class="dates-grid" id="dates-grid">
-          <!-- Injected by JS -->
-        </div>
-      </div>
-    </section>
-
-    <!-- FAVORITES -->
-    <section class="section" id="favorites">
-      <div class="container">
-        <div class="section__header">
-          <span class="section__eyebrow">Sua coleção</span>
-          <h2 class="section__title">Favoritos</h2>
-        </div>
-        <div id="favorites-content">
-          <p class="empty-state">Faça login para salvar seus drinks favoritos ✨</p>
-        </div>
-        <div class="cards-grid" id="favorites-grid"></div>
-      </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-      <div class="container">
-        <div class="footer__logo">👑 Drinks Kings</div>
-        <p class="footer__warning">🚗 Se beber, não dirija. Beba com moderação. Proibido para menores de 18 anos.</p>
-        <p class="footer__copy">© 2025 Drinks Kings. Todos os direitos reservados.</p>
-      </div>
-    </footer>
-
-  </div><!-- /main-site -->
-
-  <!-- ══════════════════════════════════════════
-       DRINK DETAIL MODAL
-  ══════════════════════════════════════════ -->
-  <div id="drink-modal" class="modal hidden">
-    <div class="modal__backdrop" onclick="closeModal()"></div>
-    <div class="modal__box">
-      <button class="modal__close" onclick="closeModal()">✕</button>
-      <div class="modal__emoji" id="modal-emoji"></div>
-      <h2 class="modal__title" id="modal-title"></h2>
-      <div class="modal__meta">
-        <span class="tag" id="modal-alcohol"></span>
-        <span class="tag tag--category" id="modal-category"></span>
-      </div>
-      <div class="modal__body">
-        <div class="modal__col">
-          <h3>🧪 Ingredientes</h3>
-          <ul id="modal-ingredients"></ul>
-        </div>
-        <div class="modal__col">
-          <h3>📋 Modo de Preparo</h3>
-          <ol id="modal-steps"></ol>
-        </div>
-      </div>
-      <div id="modal-auth-actions" class="modal__actions hidden">
-        <button class="btn btn--gold" id="modal-fav-btn" onclick="toggleFavorite()">
-          ♡ Salvar nos Favoritos
-        </button>
-      </div>
-      <p class="modal__tip" id="modal-tip"></p>
-    </div>
-  </div>
-
-  <!-- ══════════════════════════════════════════
-       AUTH MODAL
-  ══════════════════════════════════════════ -->
-  <div id="auth-modal" class="modal hidden">
-    <div class="modal__backdrop" onclick="closeAuthModal()"></div>
-    <div class="modal__box modal__box--auth">
-      <button class="modal__close" onclick="closeAuthModal()">✕</button>
-      <div class="auth-tabs">
-        <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Entrar</button>
-        <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Cadastrar</button>
-      </div>
-
-      <!-- LOGIN -->
-      <div id="form-login" class="auth-form">
-        <h2 class="auth-form__title">Bem-vindo de volta 👑</h2>
-        <div class="field">
-          <label>E-mail</label>
-          <input type="email" id="login-email" placeholder="seu@email.com" />
-        </div>
-        <div class="field">
-          <label>Senha</label>
-          <input type="password" id="login-password" placeholder="••••••••" />
-        </div>
-        <p class="auth-error hidden" id="login-error"></p>
-        <button class="btn btn--gold btn--full" onclick="loginUser()">Entrar</button>
-      </div>
-
-      <!-- REGISTER -->
-      <div id="form-register" class="auth-form hidden">
-        <h2 class="auth-form__title">Criar Conta</h2>
-        <div class="field">
-          <label>Nome</label>
-          <input type="text" id="reg-name" placeholder="Seu nome" />
-        </div>
-        <div class="field">
-          <label>E-mail</label>
-          <input type="email" id="reg-email" placeholder="seu@email.com" />
-        </div>
-        <div class="field">
-          <label>Senha</label>
-          <input type="password" id="reg-password" placeholder="Mínimo 6 caracteres" />
-        </div>
-        <p class="auth-error hidden" id="reg-error"></p>
-        <button class="btn btn--gold btn--full" onclick="registerUser()">Criar Conta</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCRIPTS -->
-  <script type="module" src="app.js"></script>
+<script src="data.js"></script>
+<script src="auth.js"></script>
+<script src="app.js"></script>
 
 </body>
 </html>
